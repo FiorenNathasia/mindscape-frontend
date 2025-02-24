@@ -2,20 +2,18 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
-function Entry({ id, title, date, sketch, entry, fetchEntries }) {
+function Entry({ id, title, date, sketch, text, fetchEntries }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
-    setIsDeleting(false);
+    setIsDeleting(true);
     const token = localStorage.getItem("accessToken");
     try {
       const deletedEntry = await axios.delete(
         `http://localhost:3030/api/entry/${id}`,
         {
-          header: {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
+          headers: {
+            Authorization: "Bearer " + token,
           },
         }
       );
@@ -29,7 +27,7 @@ function Entry({ id, title, date, sketch, entry, fetchEntries }) {
   return (
     <>
       <Link style={{ color: "black" }} to={`/entry/${id}`}>
-        {title}
+        <p className="entry__title">{title}</p>
       </Link>
       <button onClick={handleDelete} disabled={isDeleting}>
         {isDeleting ? "Deleting..." : "Delete"}

@@ -17,6 +17,8 @@ function Login() {
         "http://localhost:3030/api/auth/login",
         user
       );
+      const accessToken = response.data.data.accessToken;
+      localStorage.setItem("accessToken", accessToken);
       navigate("/homepage");
       return response;
     } catch (error) {
