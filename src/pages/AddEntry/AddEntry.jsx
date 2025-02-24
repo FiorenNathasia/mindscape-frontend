@@ -4,7 +4,6 @@ import axios from "axios";
 
 function AddEntry() {
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
   const [sketch, setSketch] = useState("");
   const [text, setText] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -15,7 +14,6 @@ function AddEntry() {
     const token = localStorage.getItem("accessToken");
     const entry = {
       title,
-      date,
       sketch,
       text,
     };
@@ -40,14 +38,6 @@ function AddEntry() {
             value={title}
             placeholder="Title"
             onChange={(e) => setTitle(e.target.value)}
-            disabled={isSaving}
-          ></input>
-          <input
-            className="addentry__date"
-            type="date"
-            value={date}
-            placeholder="Date"
-            onChange={(e) => setDate(e.target.value)}
             disabled={isSaving}
           ></input>
           <input

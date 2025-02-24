@@ -4,8 +4,8 @@ import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import Homepage from "./pages/Homepage/Homepage";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import Entry from "./components/Entry/Entry";
 import AddEntry from "./pages/AddEntry/AddEntry";
+import EntryPage from "./pages/EntryPage/EntryPage";
 
 function App() {
   return (
