@@ -1,12 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Canvas from "../../components/Canvas/Canvas";
 
 function EntryPage() {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
-  //   const[sketch, setSketch]=useState("")
+  const [sketch, setSketch] = useState("");
   const [text, setText] = useState("");
   const [hasChanged, setHasChanged] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -27,7 +26,7 @@ function EntryPage() {
       );
       setTitle(data.data.title);
       setDate(data.data.updated_at);
-      //   setSketch(data.data.sketch)
+      setSketch(data.data.sketch);
       setText(data.data.text);
     } catch (error) {
       console.log(error);
@@ -95,7 +94,7 @@ function EntryPage() {
             onChange={handleTitleChange}
           ></input>
           <div className="entry__date">{date}</div>
-          <Canvas />
+          <img src={sketch}></img>
           {/* <input
           className="entrypage__sketch"
             value={title}

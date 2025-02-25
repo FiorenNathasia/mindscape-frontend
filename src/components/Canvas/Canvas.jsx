@@ -35,6 +35,7 @@ function Canvas() {
     contextRef.current.lineTo(offsetX, offsetY);
     contextRef.current.stroke();
   };
+
   return (
     <>
       <canvas
