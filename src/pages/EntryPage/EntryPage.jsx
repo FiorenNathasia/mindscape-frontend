@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Canvas from "../../components/Canvas/Canvas";
 
 function EntryPage() {
   const [title, setTitle] = useState("");
@@ -94,6 +95,7 @@ function EntryPage() {
             onChange={handleTitleChange}
           ></input>
           <div className="entry__date">{date}</div>
+          <Canvas />
           {/* <input
           className="entrypage__sketch"
             value={title}
