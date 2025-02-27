@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-function Canvas() {
-  const canvasRef = useRef(null);
+function Canvas({ canvasRef }) {
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   useEffect(() => {

@@ -1,17 +1,21 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Canvas from "../../components/Canvas/Canvas";
 
 function EntryPage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const canvasRef = useRef(null);
+  //States//
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [sketch, setSketch] = useState("");
   const [text, setText] = useState("");
   const [hasChanged, setHasChanged] = useState(false);
+  const [isEditingSketch, setIsEditingSketch] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const { id } = useParams();
-  const navigate = useNavigate();
 
   const fetchEntryData = async () => {
     const token = localStorage.getItem("accessToken");
@@ -55,13 +59,22 @@ function EntryPage() {
     setHasChanged(true);
   };
 
-  //   const handleSketchChange = (e) => {
-  //     setSketch(e.target.value);
-  //     setHasChanged(true);
-  //   }
-
   const handleTextChange = (e) => {
     setText(e.target.value);
+    setHasChanged(true);
+  };
+
+  const startSketchEditing = () => {
+    setSketch("");
+    setIsEditingSketch(true);
+    setHasChanged(true);
+  };
+
+  const finishSketchEditing = () => {
+    if (!canvasRef.current) return;
+    const newSketch = canvasRef.current.toDataURL();
+    setSketch(newSketch);
+    setIsEditingSketch(false);
     setHasChanged(true);
   };
 
@@ -70,7 +83,7 @@ function EntryPage() {
     const token = localStorage.getItem("accessToken");
     const editedFields = {
       title,
-      //   sketch,
+      sketch,
       text,
     };
     try {
@@ -94,12 +107,19 @@ function EntryPage() {
             onChange={handleTitleChange}
           ></input>
           <div className="entry__date">{date}</div>
-          <img src={sketch}></img>
-          {/* <input
-          className="entrypage__sketch"
-            value={title}
-            onChange={(e) => setSketch(e.target.value)}
-          ></input> */}
+
+          {isEditingSketch || !sketch ? (
+            <>
+              <Canvas canvasRef={canvasRef} />
+              <button onClick={finishSketchEditing}>Done</button>
+            </>
+          ) : (
+            <>
+              <img src={sketch} alt="Sketch" />
+              <button onClick={startSketchEditing}>Edit Sketch</button>
+            </>
+          )}
+
           <textarea
             className="entrypage__text"
             value={text}
