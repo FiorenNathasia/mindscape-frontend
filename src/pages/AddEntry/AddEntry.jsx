@@ -8,8 +8,6 @@ function AddEntry() {
   const [text, setText] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const navigate = useNavigate();
-
-  //Canvas
   const canvasRef = useRef(null);
 
   const handleSubmit = async () => {
@@ -33,10 +31,15 @@ function AddEntry() {
     setIsSaving(false);
   };
 
+  const back = () => {
+    navigate("/");
+  };
+
   return (
     <>
       <div className="addentry">
         <div className="addentry__container">
+          <button onClick={back}>x</button>
           <h1>How are you feeling?</h1>
           <input
             className="addentry__title"
