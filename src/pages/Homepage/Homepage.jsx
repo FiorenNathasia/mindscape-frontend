@@ -31,7 +31,6 @@ function Homepage() {
         headers: { Authorization: "Bearer " + token },
       });
       setUser(data.data);
-      console.log(data.data);
     } catch (error) {
       console.log(error);
     }

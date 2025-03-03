@@ -70,20 +70,15 @@ function EntryPage() {
     setHasChanged(true);
   };
 
-  const finishSketchEditing = () => {
-    if (!canvasRef.current) return;
-    const newSketch = canvasRef.current.toDataURL();
-    setSketch(newSketch);
-    setIsEditingSketch(false);
-    setHasChanged(true);
-  };
-
   const handleSave = async () => {
-    setIsSaving(true);
+    let newSketch = sketch;
+    if (isEditingSketch) {
+      newSketch = canvasRef.current.toDataURL();
+    }
     const token = localStorage.getItem("accessToken");
     const editedFields = {
       title,
-      sketch,
+      sketch: newSketch,
       text,
     };
     try {
@@ -111,7 +106,6 @@ function EntryPage() {
           {isEditingSketch || !sketch ? (
             <>
               <Canvas canvasRef={canvasRef} />
-              <button onClick={finishSketchEditing}>Done</button>
             </>
           ) : (
             <>
