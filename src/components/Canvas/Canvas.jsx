@@ -57,7 +57,7 @@ function Canvas({ canvasRef }) {
       <input
         type="color"
         value={brushColor}
-        onChange={(e) => setBrushColor(e.value.target)}
+        onChange={(e) => setBrushColor(e.target.value)}
       />
       <input
         type="range"
