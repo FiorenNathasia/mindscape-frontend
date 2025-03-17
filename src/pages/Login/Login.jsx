@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { TextField, Button, Box, Typography, ButtonGroup } from "@mui/material";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -25,42 +26,88 @@ function Login() {
       console.log(error);
     }
   };
+
   const signup = () => {
     navigate("/signup");
   };
+
   return (
-    <>
-      <div className="login">
-        <div className="login__container">
-          <div className="login__header">
-            <p className="login__text">Login</p>
-            <div className="login__underline"></div>
-          </div>
-          <div className="login__inputs">
-            <div className="login__input">
-              <input
-                type="email"
-                value={email}
-                placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="login__input">
-              <input
-                type="password"
-                value={password}
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="login_submit-container">
-            <button onClick={handleSubmit}>Submit</button>
-            <button onClick={signup}>Signup</button>
-          </div>
-        </div>
-      </div>
-    </>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        backgroundColor: "background.default",
+      }}
+    >
+      <Box
+        sx={{
+          padding: 3,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <Typography variant="h5" gutterBottom>
+          Welcome Back!
+        </Typography>
+        <ButtonGroup variant="contained" aria-label="Basic button group">
+          <Button fullWidth>Login</Button>
+          <Button
+            fullWidth
+            variant="outlined"
+            color="secondary"
+            onClick={signup}
+            sx={{
+              color: "#9ccc65", // Custom text color (label)
+            }}
+          >
+            Signup
+          </Button>
+        </ButtonGroup>
+        <Box component="form" noValidate autoComplete="off">
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            variant="outlined"
+            color="primary"
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            variant="outlined"
+            color="primary"
+          />
+          <Box sx={{ marginTop: 2 }}>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+              sx={{
+                marginBottom: 2,
+                "&:hover": {
+                  borderColor: "#9ccc65", // Custom border color on hover
+                },
+              }}
+            >
+              Submit
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 }
+
 export default Login;
