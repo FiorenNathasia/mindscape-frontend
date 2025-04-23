@@ -33,6 +33,7 @@ function EntryPage() {
       setSketch(data.data.sketch);
       setText(data.data.text);
     } catch (error) {
+      // TODO: handle error
       console.log(error);
     }
   };
