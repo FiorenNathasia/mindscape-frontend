@@ -21,7 +21,7 @@ function EntryPage() {
     const token = localStorage.getItem("accessToken");
     try {
       const { data } = await axios.get(
-        `http://localhost:3030/api/entry/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/entry/${id}`,
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -83,9 +83,13 @@ function EntryPage() {
       text,
     };
     try {
-      await axios.put(`http://localhost:3030/api/entry/${id}`, editedFields, {
-        headers: { Authorization: "Bearer " + token },
-      });
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/entry/${id}`,
+        editedFields,
+        {
+          headers: { Authorization: "Bearer " + token },
+        }
+      );
       navigate("/");
     } catch (error) {
       console.log(error);

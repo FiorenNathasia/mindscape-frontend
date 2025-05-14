@@ -13,11 +13,14 @@ function Homepage() {
   const fetchEntryList = async () => {
     const token = localStorage.getItem("accessToken");
     try {
-      const { data } = await axios.get("http://localhost:3030/api/entry/", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/entry/`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
       setEntryList(data.data);
     } catch (error) {
       console.log(error);
@@ -27,9 +30,12 @@ function Homepage() {
   const fetchUser = async () => {
     const token = localStorage.getItem("accessToken");
     try {
-      const { data } = await axios.get("http://localhost:3030/api/user/", {
-        headers: { Authorization: "Bearer " + token },
-      });
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/user/`,
+        {
+          headers: { Authorization: "Bearer " + token },
+        }
+      );
       setUser(data.data);
     } catch (error) {
       console.log(error);

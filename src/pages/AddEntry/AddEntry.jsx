@@ -21,9 +21,13 @@ function AddEntry() {
       text,
     };
     try {
-      await axios.post("http://localhost:3030/api/entry/newentry", entry, {
-        headers: { Authorization: "Bearer " + token },
-      });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/entry/newentry`,
+        entry,
+        {
+          headers: { Authorization: "Bearer " + token },
+        }
+      );
       navigate("/");
     } catch (error) {
       console.log(error);

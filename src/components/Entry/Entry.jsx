@@ -10,7 +10,7 @@ function Entry({ id, title, date, sketch, text, fetchEntries }) {
     const token = localStorage.getItem("accessToken");
     try {
       const deletedEntry = await axios.delete(
-        `http://localhost:3030/api/entry/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/entry/${id}`,
         {
           headers: {
             Authorization: "Bearer " + token,

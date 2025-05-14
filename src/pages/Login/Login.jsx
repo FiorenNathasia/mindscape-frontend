@@ -15,7 +15,7 @@ function Login() {
     };
     try {
       const response = await axios.post(
-        "http://localhost:3030/api/auth/login",
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
         user
       );
       const accessToken = response.data.data.accessToken;
