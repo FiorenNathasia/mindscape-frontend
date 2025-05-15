@@ -18,12 +18,8 @@ function Signup() {
       password,
     };
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/signup`,
-        user
-      );
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, user);
       navigate("/login");
-      return response;
     } catch (error) {
       console.log(error);
     }

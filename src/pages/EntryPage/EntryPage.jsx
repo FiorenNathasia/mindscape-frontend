@@ -72,16 +72,19 @@ function EntryPage() {
   };
 
   const handleSave = async () => {
+    setIsSaving(true);
     let newSketch = sketch;
     if (isEditingSketch) {
       newSketch = canvasRef.current.toDataURL();
     }
+
     const token = localStorage.getItem("accessToken");
     const editedFields = {
       title,
       sketch: newSketch,
       text,
     };
+
     try {
       await axios.put(
         `${import.meta.env.VITE_API_URL}/api/entry/${id}`,
@@ -94,6 +97,7 @@ function EntryPage() {
     } catch (error) {
       console.log(error);
     }
+    setIsSaving(false);
   };
 
   return (
@@ -114,8 +118,8 @@ function EntryPage() {
             </>
           ) : (
             <>
-              <img src={sketch} alt="Sketch" />
-              <button onClick={startSketchEditing}>Edit Sketch</button>
+              <img border="1px solid black" src={sketch} alt="Sketch" />
+              <button onClick={startSketchEditing}>Create New Sketch</button>
             </>
           )}
 
@@ -125,7 +129,7 @@ function EntryPage() {
             onChange={handleTextChange}
           ></textarea>
           <button onClick={handleSave} disabled={!hasChanged}>
-            Save
+            {isSaving ? "Saving..." : "Save"}
           </button>
         </div>
       </div>

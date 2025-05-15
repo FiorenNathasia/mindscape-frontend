@@ -12,39 +12,38 @@ function Homepage() {
 
   const fetchEntryList = async () => {
     const token = localStorage.getItem("accessToken");
-    try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/entry/`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      setEntryList(data.data);
-    } catch (error) {
-      console.log(error);
-    }
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/entry/`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    setEntryList(data.data);
   };
 
   const fetchUser = async () => {
     const token = localStorage.getItem("accessToken");
-    try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/user/`,
-        {
-          headers: { Authorization: "Bearer " + token },
-        }
-      );
-      setUser(data.data);
-    } catch (error) {
-      console.log(error);
-    }
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/user/`,
+      {
+        headers: { Authorization: "Bearer " + token },
+      }
+    );
+    setUser(data.data);
   };
 
   const fetchPageData = async () => {
-    await fetchEntryList();
-    await fetchUser();
+    try {
+      await fetchEntryList();
+      await fetchUser();
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong";
+      setError(errorMessage);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -58,6 +57,11 @@ function Homepage() {
     localStorage.removeItem("accessToken");
     navigate("/login");
   };
+
+  if (isLoading) return <p>Loading</p>;
+
+  if (error) return <p>{error}</p>;
+
   return (
     <>
       <div className="homepage">

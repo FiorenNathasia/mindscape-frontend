@@ -21,7 +21,6 @@ function Login() {
       const accessToken = response.data.data.accessToken;
       localStorage.setItem("accessToken", accessToken);
       navigate("/");
-      return response;
     } catch (error) {
       console.log(error);
     }

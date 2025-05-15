@@ -4,7 +4,7 @@ function Canvas({ canvasRef }) {
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [brushColor, setBrushColor] = useState("black");
-  const [brushSize, setBrushSize] = useState(5);
+  const [brushSize, setBrushSize] = useState(2);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -19,6 +19,21 @@ function Canvas({ canvasRef }) {
     contextRef.current = context;
   }, []);
 
+  const startTouchDrawing = (e) => {
+    e.preventDefault(); // Prevent mobile scrolling
+    const touch = e.touches[0];
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const offsetX = touch.clientX - rect.left;
+    const offsetY = touch.clientY - rect.top;
+
+    contextRef.current.beginPath();
+    contextRef.current.moveTo(offsetX, offsetY);
+    contextRef.current.strokeStyle = brushColor;
+    contextRef.current.lineWidth = brushSize;
+    setIsDrawing(true);
+  };
+
   const startDrawing = (e) => {
     const { offsetX, offsetY } = e.nativeEvent;
     contextRef.current.beginPath();
@@ -27,15 +42,32 @@ function Canvas({ canvasRef }) {
     contextRef.current.lineWidth = brushSize;
     setIsDrawing(true);
   };
+
   const finishDrawing = () => {
     contextRef.current.closePath();
     setIsDrawing(false);
   };
+
   const draw = (e) => {
     if (!isDrawing) {
       return;
     }
     const { offsetX, offsetY } = e.nativeEvent;
+    contextRef.current.lineTo(offsetX, offsetY);
+    contextRef.current.stroke();
+  };
+
+  const touchDraw = (e) => {
+    e.preventDefault(); // Prevent mobile scrolling
+    if (!isDrawing) {
+      return;
+    }
+    const touch = e.touches[0];
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const offsetX = touch.clientX - rect.left;
+    const offsetY = touch.clientY - rect.top;
+
     contextRef.current.lineTo(offsetX, offsetY);
     contextRef.current.stroke();
   };
@@ -47,12 +79,16 @@ function Canvas({ canvasRef }) {
   };
 
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <canvas
         onMouseDown={startDrawing}
         onMouseUp={finishDrawing}
         onMouseMove={draw}
+        onTouchStart={startTouchDrawing}
+        onTouchEnd={finishDrawing}
+        onTouchMove={touchDraw}
         ref={canvasRef}
+        style={{ border: "1px solid black", width: "500px", height: "300px" }}
       />
       <input
         type="color"
@@ -67,7 +103,7 @@ function Canvas({ canvasRef }) {
         onChange={(e) => setBrushSize(e.target.value)}
       />
       <button onClick={clearSketch}>Clear</button>
-    </>
+    </div>
   );
 }
 

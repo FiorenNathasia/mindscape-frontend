@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("accessToken");
-  const [redirect, setRedirect] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!token) {
       setTimeout(() => {
-        setRedirect(true);
-      }, 3000);
+        navigate("/login");
+      }, 2000);
     }
   }, [token]);
-  if (!token && !redirect) {
+
+  if (!token) {
     return (
       <div className="protectedroute__position">
         <p className="protectedroute__message">
@@ -20,9 +22,6 @@ function ProtectedRoute({ children }) {
         </p>
       </div>
     );
-  }
-  if (redirect) {
-    return navigate("/login");
   }
 
   return children;
