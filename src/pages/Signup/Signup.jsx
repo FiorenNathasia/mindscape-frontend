@@ -9,6 +9,7 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   const handleSubmit = async () => {
     const user = {
@@ -21,6 +22,9 @@ function Signup() {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, user);
       navigate("/login");
     } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong";
+      setError(errorMessage);
       console.log(error);
     }
   };
@@ -51,6 +55,7 @@ function Signup() {
         <Typography variant="h5" gutterBottom>
           Welcome Back!
         </Typography>
+        {error}
         <ButtonGroup
           variant="contained"
           aria-label="Basic button group"

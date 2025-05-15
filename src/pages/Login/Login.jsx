@@ -6,6 +6,7 @@ import { TextField, Button, Box, Typography, ButtonGroup } from "@mui/material";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -22,7 +23,9 @@ function Login() {
       localStorage.setItem("accessToken", accessToken);
       navigate("/");
     } catch (error) {
-      console.log(error);
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong";
+      setError(errorMessage);
     }
   };
 
@@ -52,6 +55,7 @@ function Login() {
         <Typography variant="h5" gutterBottom>
           Welcome Back!
         </Typography>
+        {error}
         <ButtonGroup variant="contained" aria-label="Basic button group">
           <Button fullWidth>Login</Button>
           <Button
