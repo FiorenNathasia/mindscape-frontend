@@ -89,7 +89,12 @@ function Canvas({ canvasRef }) {
         onTouchEnd={finishDrawing}
         onTouchMove={touchDraw}
         ref={canvasRef}
-        style={{ border: "1px solid black", width: "500px", height: "300px" }}
+        style={{
+          border: "1px solid black",
+          width: "500px",
+          height: "300px",
+          touchAction: "none",
+        }}
       />
       <input
         type="color"
