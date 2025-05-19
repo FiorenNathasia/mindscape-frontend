@@ -49,6 +49,7 @@ function Canvas({ canvasRef }) {
   };
 
   const draw = (e) => {
+    e.preventDefault(); // Prevent mobile scrolling
     if (!isDrawing) {
       return;
     }
