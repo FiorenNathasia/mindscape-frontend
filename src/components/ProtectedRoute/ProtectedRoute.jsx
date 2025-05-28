@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute() {
   const token = localStorage.getItem("accessToken");
   const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ function ProtectedRoute({ children }) {
     );
   }
 
-  return children;
+  return <Outlet />;
 }
 
 export default ProtectedRoute;

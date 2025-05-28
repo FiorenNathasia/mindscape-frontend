@@ -1,14 +1,28 @@
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import {
+  Box,
+  Button,
+  Stack,
+  Slider,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import CircleIcon from "@mui/icons-material/Circle";
 
 function Canvas({ canvasRef }) {
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [brushColor, setBrushColor] = useState("black");
-  const [brushSize, setBrushSize] = useState(2);
+  const [brushColor, setBrushColor] = useState("#2d3235");
+  const [brushSize, setBrushSize] = useState(5);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const colours = ["#2d3235", "#ed6242", "#f5c848", "#388360", "#6593b4"];
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = 500;
+    canvas.width = isMobile ? 350 : 700;
     canvas.height = 300;
 
     const context = canvas.getContext("2d");
@@ -80,7 +94,7 @@ function Canvas({ canvasRef }) {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <Box alignItems="center" display="flex" flexDirection="column">
       <canvas
         onMouseDown={startDrawing}
         onMouseUp={finishDrawing}
@@ -90,26 +104,78 @@ function Canvas({ canvasRef }) {
         onTouchMove={touchDraw}
         ref={canvasRef}
         style={{
-          border: "1px solid black",
-          width: "500px",
+          width: isMobile ? 350 : 700,
           height: "300px",
           touchAction: "none",
+          borderRadius: "15px",
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+          backgroundColor: "white",
         }}
       />
-      <input
-        type="color"
-        value={brushColor}
-        onChange={(e) => setBrushColor(e.target.value)}
-      />
-      <input
-        type="range"
-        min="1"
-        max="20"
-        value={brushSize}
-        onChange={(e) => setBrushSize(e.target.value)}
-      />
-      <button onClick={clearSketch}>Clear</button>
-    </div>
+      <Box
+        mt={1}
+        justifyContent="space-between"
+        display="flex"
+        width={isMobile ? 350 : 700}
+      >
+        <Stack direction="row" gap={0.5}>
+          {colours.map((colour) => (
+            <IconButton
+              key={colour}
+              sx={{
+                padding: 0,
+                backgroundColor: brushColor === colour ? colour : "",
+                "&:hover": {
+                  backgroundColor: brushColor === colour ? colour : "",
+                },
+              }}
+              onClick={() => setBrushColor(colour)}
+            >
+              <CircleIcon sx={{ color: colour, fontSize: 40 }} />
+            </IconButton>
+          ))}
+        </Stack>
+
+        {!isMobile && (
+          <Box
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="center"
+            width="100%"
+          >
+            <Typography variant="body2" mr={1}>
+              Brush Size
+            </Typography>
+            <Slider
+              min={1}
+              max={30}
+              value={brushSize}
+              onChange={(e, value) => setBrushSize(value)}
+              sx={{
+                width: 300,
+              }}
+            />
+          </Box>
+        )}
+
+        <Button variant="outlined" onClick={clearSketch}>
+          Clear
+        </Button>
+      </Box>
+      {isMobile && (
+        <Box display="flex" flexDirection="column" mt={2} width={350}>
+          <Typography mr={1}>Brush Size</Typography>
+          <Slider
+            min={1}
+            max={30}
+            value={brushSize}
+            onChange={(e, value) => setBrushSize(value)}
+            width="100%"
+          />
+        </Box>
+      )}
+    </Box>
   );
 }
 

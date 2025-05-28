@@ -1,6 +1,16 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  Stack,
+  TextField,
+  LinearProgress,
+  CircularProgress,
+} from "@mui/material";
 import Canvas from "../../components/Canvas/Canvas";
 
 function EntryPage() {
@@ -9,10 +19,8 @@ function EntryPage() {
   const canvasRef = useRef(null);
   //States//
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
   const [sketch, setSketch] = useState("");
   const [text, setText] = useState("");
-  const [hasChanged, setHasChanged] = useState(false);
   const [isEditingSketch, setIsEditingSketch] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,9 +37,9 @@ function EntryPage() {
         }
       );
       setTitle(data.data.title);
-      setDate(data.data.updated_at);
       setSketch(data.data.sketch);
       setText(data.data.text);
+      setIsEditingSketch(!data.data.sketch);
     } catch (error) {
       // TODO: handle error
       console.log(error);
@@ -47,28 +55,9 @@ function EntryPage() {
     fetchPageData();
   }, []);
 
-  const back = () => {
-    navigate("/");
-  };
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-    setHasChanged(true);
-  };
-
-  const handleTextChange = (e) => {
-    setText(e.target.value);
-    setHasChanged(true);
-  };
-
   const startSketchEditing = () => {
     setSketch("");
     setIsEditingSketch(true);
-    setHasChanged(true);
   };
 
   const handleSave = async () => {
@@ -100,39 +89,108 @@ function EntryPage() {
     setIsSaving(false);
   };
 
+  const handleDelete = async () => {
+    const token = localStorage.getItem("accessToken");
+    try {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/entry/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (isLoading) return <LinearProgress width="100%" />;
+
   return (
     <>
-      <div className="entrypage">
-        <div className="entrypage__container">
-          <button onClick={back}>x</button>
-          <input
-            className="entrypage__title"
-            value={title}
-            onChange={handleTitleChange}
-          ></input>
-          <div className="entry__date">{date}</div>
+      <Container maxWidth="md" sx={{ paddingTop: 5 }}>
+        <Box mb={3}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            flexDirection="row"
+            mb={3}
+            width="100%"
+            alignItems="flex-start"
+          >
+            <Typography variant="h4">Update Entry</Typography>
+
+            <Button onClick={handleDelete} color="error">
+              Delete
+            </Button>
+          </Box>
+        </Box>
+        <Stack direction="column" gap={3} width="100%" mt={2} mb={2}>
+          <Box>
+            <Typography variant="caption" color="textSecondary">
+              Title
+            </Typography>
+            <TextField
+              fullWidth
+              variant="standard"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </Box>
 
           {isEditingSketch || !sketch ? (
             <>
               <Canvas canvasRef={canvasRef} />
             </>
           ) : (
-            <>
-              <img border="1px solid black" src={sketch} alt="Sketch" />
-              <button onClick={startSketchEditing}>Create New Sketch</button>
-            </>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <img
+                style={{
+                  borderRadius: "15px",
+                  marginBottom: "5px",
+                }}
+                src={sketch}
+                alt="Sketch"
+              />
+              <Button
+                variant="outlined"
+                sx={{ alignSelf: "flex-start" }}
+                onClick={startSketchEditing}
+              >
+                Create New Sketch
+              </Button>
+            </Box>
           )}
 
-          <textarea
-            className="entrypage__text"
-            value={text}
-            onChange={handleTextChange}
-          ></textarea>
-          <button onClick={handleSave} disabled={!hasChanged}>
-            {isSaving ? "Saving..." : "Save"}
-          </button>
-        </div>
-      </div>
+          <Box>
+            <Typography variant="caption" color="textSecondary">
+              Body
+            </Typography>
+            <TextField
+              variant="outlined"
+              fullWidth
+              multiline
+              value={text}
+              minRows={4}
+              onChange={(e) => setText(e.target.value)}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 3,
+                },
+              }}
+            />
+          </Box>
+        </Stack>
+        <Button variant="contained" onClick={handleSave}>
+          Save
+          {isSaving && (
+            <CircularProgress
+              sx={{ marginLeft: 1 }}
+              size="1rem"
+              color="secondary"
+            />
+          )}
+        </Button>
+      </Container>
     </>
   );
 }
