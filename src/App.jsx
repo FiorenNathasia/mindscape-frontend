@@ -24,6 +24,10 @@ const theme = createTheme({
       primary: "#3e2c1c",
       secondary: "#5d4037",
     },
+    info: {
+      main: "#f57224",
+      contrastText: "#ffffff",
+    },
   },
 });
 

@@ -17,7 +17,6 @@ function EntryPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const canvasRef = useRef(null);
-  //States//
   const [title, setTitle] = useState("");
   const [sketch, setSketch] = useState("");
   const [text, setText] = useState("");

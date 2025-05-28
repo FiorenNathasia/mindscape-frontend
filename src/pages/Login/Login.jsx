@@ -41,6 +41,11 @@ function Login() {
     setIsLoading(false);
   };
 
+  const handleSetDemoAccount = () => {
+    setEmail("demo@email.com");
+    setPassword("password");
+  };
+
   return (
     <>
       {isLoading && <LinearProgress width="100%" />}
@@ -56,6 +61,19 @@ function Login() {
           <Typography variant="h5" mb={3}>
             Welcome Back
           </Typography>
+
+          <Alert
+            severity="info"
+            sx={{
+              width: "100%",
+              mt: 2,
+            }}
+          >
+            Here to demo the app? Use{" "}
+            <Link onClick={handleSetDemoAccount} sx={{ cursor: "pointer" }}>
+              this account
+            </Link>
+          </Alert>
 
           {error && (
             <Alert

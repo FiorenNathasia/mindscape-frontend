@@ -44,10 +44,6 @@ function AddEntry() {
     setIsSaving(false);
   };
 
-  const back = () => {
-    navigate("/");
-  };
-
   return (
     <Container maxWidth="md" sx={{ paddingTop: 5 }}>
       <Box mb={3}>
