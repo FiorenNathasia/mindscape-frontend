@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
+import { Typography, Box } from "@mui/material";
 
 function ProtectedRoute() {
   const token = localStorage.getItem("accessToken");
@@ -15,12 +16,10 @@ function ProtectedRoute() {
 
   if (!token) {
     return (
-      <div className="protectedroute__position">
-        <p className="protectedroute__message">
-          You are not authorised! <br />
-          <span>You will be taken to login page...</span>
-        </p>
-      </div>
+      <Box>
+        <Typography variant="h5"> You are not authorised!</Typography>
+        <Typography>You will be taken to login page...</Typography>
+      </Box>
     );
   }
 
