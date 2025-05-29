@@ -123,7 +123,7 @@ function EntryPage() {
             alignItems="flex-start"
           >
             <IconButton>
-              <ArrowBackIcon onClick={homepage} />
+              <ArrowBackIcon onClick={homepage} color="error" />
             </IconButton>
             <Typography variant="h4">Update Entry</Typography>
 
