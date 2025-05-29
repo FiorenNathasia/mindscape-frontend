@@ -10,8 +10,10 @@ import {
   TextField,
   LinearProgress,
   CircularProgress,
+  IconButton,
 } from "@mui/material";
 import Canvas from "../../components/Canvas/Canvas";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function EntryPage() {
   const { id } = useParams();
@@ -102,6 +104,10 @@ function EntryPage() {
     }
   };
 
+  const homepage = () => {
+    navigate("/");
+  };
+
   if (isLoading) return <LinearProgress width="100%" />;
 
   return (
@@ -116,6 +122,9 @@ function EntryPage() {
             width="100%"
             alignItems="flex-start"
           >
+            <IconButton>
+              <ArrowBackIcon onClick={homepage} />
+            </IconButton>
             <Typography variant="h4">Update Entry</Typography>
 
             <Button onClick={handleDelete} color="error">
