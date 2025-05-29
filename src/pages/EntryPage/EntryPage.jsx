@@ -123,7 +123,7 @@ function EntryPage() {
             alignItems="flex-start"
           >
             <IconButton>
-              <ArrowBackIcon onClick={homepage} color="error" />
+              <ArrowBackIcon onClick={homepage} sx={{ color: "secondary" }} />
             </IconButton>
             <Typography variant="h4">Update Entry</Typography>
 
