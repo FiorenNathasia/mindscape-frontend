@@ -12,13 +12,16 @@ import {
   Button,
   CardActionArea,
   LinearProgress,
+  IconButton,
 } from "@mui/material";
 import { format } from "date-fns";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function Homepage() {
   const [entryList, setEntryList] = useState([]);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -57,6 +60,22 @@ function Homepage() {
       setError(errorMessage);
     }
     setIsLoading(false);
+  };
+
+  const handleDelete = async (id) => {
+    setIsDeleting(true);
+    const token = localStorage.getItem("accessToken");
+    try {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/entry/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      await fetchEntryList();
+    } catch (error) {
+      console.log(error);
+    }
+    setIsDeleting(false);
   };
 
   useEffect(() => {
@@ -122,14 +141,33 @@ function Homepage() {
 
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5">
-                    {previewText(entry.title, 10)}
+                    {previewText(entry.title, 30)}
                   </Typography>
                   <Typography variant="caption" color="textSecondary">
                     {format(new Date(entry.updated_at), "d MMM")}
                   </Typography>
-                  <Typography variant="body2">
-                    {previewText(entry.text, 20)}
-                  </Typography>
+                  <Box sx={{ display: "flex", flexDirection: "row" }}>
+                    <Typography variant="body2">
+                      {previewText(entry.text, 40)}
+                    </Typography>
+                    <IconButton
+                      variant="contained"
+                      color="neutral"
+                      sx={{ ml: "auto" }}
+                    >
+                      <DeleteIcon
+                        variant="contained"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleDelete(entry.id);
+                        }}
+                        disabled={isDeleting}
+                        sx={{ fontSize: "1.5rem", color: "#919192" }}
+                      >
+                        {isDeleting ? "Deleting..." : "Delete"}
+                      </DeleteIcon>
+                    </IconButton>
+                  </Box>
                 </CardContent>
               </Card>
             </CardActionArea>

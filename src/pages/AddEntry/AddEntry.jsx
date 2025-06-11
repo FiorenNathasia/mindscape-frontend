@@ -10,7 +10,9 @@ import {
   Stack,
   TextField,
   CircularProgress,
+  IconButton,
 } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function AddEntry() {
   const [title, setTitle] = useState("");
@@ -43,18 +45,31 @@ function AddEntry() {
     }
     setIsSaving(false);
   };
+  const homepage = () => {
+    navigate("/");
+  };
 
   return (
     <Container maxWidth="md" sx={{ paddingTop: 5 }}>
       <Box mb={3}>
         <Box
           display="flex"
-          justifyContent="space-between"
+          justifyContent="center"
           flexDirection="row"
           mb={3}
           width="100%"
-          alignItems="flex-start"
+          alignItems="center"
         >
+          <IconButton>
+            <ArrowBackIcon
+              onClick={homepage}
+              sx={{
+                color: "secondary",
+                position: "absolute",
+                left: { xs: -10, sm: -260 },
+              }}
+            />
+          </IconButton>
           <Typography variant="h4">How are you feeling?</Typography>
         </Box>
       </Box>
@@ -104,41 +119,6 @@ function AddEntry() {
       </Button>
     </Container>
   );
-
-  // return (
-  //   <>
-  //     <div className="addentry">
-  //       <div className="addentry__container">
-  //         <button onClick={back}>x</button>
-  //         <h1>How are you feeling?</h1>
-  //         <input
-  //           className="addentry__title"
-  //           type="text"
-  //           value={title}
-  //           placeholder="Title"
-  //           onChange={(e) => setTitle(e.target.value)}
-  //           disabled={isSaving}
-  //         ></input>
-  //         <Canvas canvasRef={canvasRef} />
-  //         <textarea
-  //           className="addentry__text"
-  //           type="text"
-  //           value={text}
-  //           placeholder="Text"
-  //           onChange={(e) => setText(e.target.value)}
-  //           disabled={isSaving}
-  //         ></textarea>
-  //         <button
-  //           className="addentry__submit"
-  //           onClick={handleSubmit}
-  //           disabled={isSaving}
-  //         >
-  //           {isSaving ? "Saving..." : "Save"}
-  //         </button>
-  //       </div>
-  //     </div>
-  //   </>
-  // );
 }
 
 export default AddEntry;
