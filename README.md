@@ -1,8 +1,39 @@
-# React + Vite
+# Mindscape 📝🎨 (Fullstack Multimedia Journaling Application)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📽️ Demo Videos
 
-Currently, two official plugins are available:
+### 💻 Desktop View
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Desktop Demo](public/gif/desktop.gif)
+
+### 📱 Mobile View
+
+![Mobile Demo](public/gif/mobile.gif)
+
+---
+
+## 🧠 Overview
+
+**Mindscape** is a multimedia web journaling app that enhances user engagement by allowing journal entries via text and freehand drawings on a canvas. The platform supports seamless creation, media uploads, and data sync, fostering a rich, personal journaling experience.
+
+---
+
+## 🚀 Features
+
+- **✍️ Multimedia Entries** Combine text and drawings for expressive journal entries.
+
+-**📥 Media Uploads** Attach images or other media to your journals.
+
+-**🔄 Data Synchronization** Keep entries synced across sessions and devices.
+
+-**⚙️ Backend APIs** Robust API design to support journaling functionality.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React (with responsive design)
+- **Backend:** Express.js
+- **Database:** PostgreSQL
+
+---
