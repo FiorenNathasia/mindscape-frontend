@@ -1,6 +1,6 @@
-# Mindscape 📝🎨 (Fullstack Multimedia Journaling Application)
+# MindScape 🧠✏️ (A Journal with Built-In Sketching Tools)
 
-## 📽️ Demo Videos
+**Project's Backend:** https://github.com/FiorenNathasia/mindscape-backend
 
 ### 💻 Desktop View
 
@@ -14,26 +14,41 @@
 
 ## 🧠 Overview
 
-**Mindscape** is a multimedia web journaling app that enhances user engagement by allowing journal entries via text and freehand drawings on a canvas. The platform supports seamless creation, media uploads, and data sync, fostering a rich, personal journaling experience.
+**Mindscape** is a journaling app that combines text entries with freeform sketching tools, helping users capture ideas visually and flexibly.
+
+---
+
+## 🔍 How is it done?
+
+- Provides a responsive sketching tool using the HTML Canvas element
+
+- Supports both touch and mouse inputs for seamless drawing
+
+- Users can select colors and adjust stroke width for personalized sketches
+
+- Sketches are saved as base64-encoded images tied to each journal entry
+
+- Entries support updating, clearing, or redoing sketches before saving
 
 ---
 
 ## 🚀 Features
 
-- **✍️ Multimedia Entries** Combine text and drawings for expressive journal entries.
+- **✍️ Integrated Sketching:** Draw directly within journal entries with customizable brushes
 
--**📥 Media Uploads** Attach images or other media to your journals.
+- **📱 Responsive Design:** Works smoothly on both desktop and mobile devices
 
--**🔄 Data Synchronization** Keep entries synced across sessions and devices.
+- **💾 Persistent Storage:** Sketches and texts saved reliably using PostgreSQL
 
--**⚙️ Backend APIs** Robust API design to support journaling functionality.
+- **🔐 Secure Authentication:** User login and sessions managed with JWT and OAuth
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** React (with responsive design)
+- **Frontend:** React (with responsive design) & HTML Canvas (for sketching interactions)
 - **Backend:** Express.js
 - **Database:** PostgreSQL
+- **Authentication:** JWT (OAuth)
 
 ---
