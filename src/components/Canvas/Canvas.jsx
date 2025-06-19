@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
+import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal";
 
 function Canvas({ canvasRef }) {
   const contextRef = useRef(null);
@@ -113,10 +114,10 @@ function Canvas({ canvasRef }) {
         }}
       />
       <Box
-        mt={1}
+        mt={4}
         justifyContent="space-between"
         display="flex"
-        width={isMobile ? 350 : 700}
+        width={isMobile ? 350 : 730}
       >
         <Stack direction="row" gap={0.5}>
           {colours.map((colour) => (
@@ -134,6 +135,24 @@ function Canvas({ canvasRef }) {
               <CircleIcon sx={{ color: colour, fontSize: 40 }} />
             </IconButton>
           ))}
+          <IconButton
+            onClick={() => setBrushColor("white")}
+            sx={{
+              padding: 0,
+              backgroundColor: brushColor === "white" ? "#ccc" : "",
+              "&:hover": {
+                backgroundColor: "#eee",
+              },
+              borderRadius: "50%",
+              width: 40,
+              height: 40,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <AutoFixNormalIcon sx={{ fontSize: 37, color: "#555" }} />
+          </IconButton>
         </Stack>
 
         {!isMobile && (
