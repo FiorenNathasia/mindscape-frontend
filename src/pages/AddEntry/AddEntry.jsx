@@ -12,7 +12,6 @@ import {
   CircularProgress,
   IconButton,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Header from "../../components/Header/Header";
 
 function AddEntry() {
@@ -54,7 +53,6 @@ function AddEntry() {
         <Box mb={3}>
           <Box
             display="flex"
-            justifyContent="center"
             flexDirection="row"
             mb={3}
             width="100%"
