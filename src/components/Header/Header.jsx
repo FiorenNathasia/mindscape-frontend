@@ -83,8 +83,10 @@ function Header() {
               component={RouterLink}
               to="/"
               sx={{
-                backgroundColor: theme.palette.primary.light,
-                color: theme.palette.primary.contrastText,
+                color:
+                  currentPath === "/"
+                    ? theme.palette.grey[700]
+                    : theme.palette.primary.contrastText,
               }}
             >
               <DashboardIcon />
