@@ -31,7 +31,6 @@ function Header() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            py: 1,
           }}
         >
           <Box textAlign="center">
@@ -40,7 +39,7 @@ function Header() {
               src={logoImage}
               alt="Mindscape Logo"
               sx={{
-                height: { xs: 70, sm: 130 },
+                height: { xs: 110, sm: 130 },
                 marginTop: "1rem",
               }}
             />
@@ -60,17 +59,11 @@ function Header() {
                 color:
                   currentPath === "/"
                     ? theme.palette.primary.contrastText
-                    : theme.palette.primary.main,
+                    : "#ffffff",
                 backgroundColor:
                   currentPath === "/"
                     ? theme.palette.primary.main
                     : "transparent",
-                "&:hover": {
-                  backgroundColor:
-                    currentPath === "/"
-                      ? theme.palette.primary.dark
-                      : theme.palette.primary.light,
-                },
               }}
             >
               Dashboard
@@ -85,30 +78,13 @@ function Header() {
             </Button>
           </Stack>
 
-          {/* Mobile: show icon buttons only */}
           <Box sx={{ display: { xs: "flex", sm: "none" } }}>
-            {/* Assuming you want to keep FeedIcon, import it if used */}
-            {/* <IconButton
-              component={RouterLink}
-              to="/feed"
-              sx={{
-                color:
-                  currentPath === "/feed"
-                    ? theme.palette.primary.dark
-                    : theme.palette.primary.contrastText,
-              }}
-            >
-              <FeedIcon />
-            </IconButton> */}
             <IconButton
               component={RouterLink}
               to="/"
               sx={{
                 backgroundColor: theme.palette.primary.light,
                 color: theme.palette.primary.contrastText,
-                "&:hover": {
-                  backgroundColor: theme.palette.primary.main,
-                },
               }}
             >
               <DashboardIcon />
@@ -118,9 +94,6 @@ function Header() {
               sx={{
                 backgroundColor: theme.palette.primary.light,
                 color: theme.palette.primary.contrastText,
-                "&:hover": {
-                  backgroundColor: theme.palette.primary.main,
-                },
               }}
             >
               <LogoutIcon />

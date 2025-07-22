@@ -13,6 +13,7 @@ import {
   IconButton,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Header from "../../components/Header/Header";
 
 function AddEntry() {
   const [title, setTitle] = useState("");
@@ -45,79 +46,69 @@ function AddEntry() {
     }
     setIsSaving(false);
   };
-  const homepage = () => {
-    navigate("/");
-  };
 
   return (
-    <Container maxWidth="md" sx={{ paddingTop: 5 }}>
-      <Box mb={3}>
-        <Box
-          display="flex"
-          justifyContent="center"
-          flexDirection="row"
-          mb={3}
-          width="100%"
-          alignItems="center"
-        >
-          <IconButton>
-            <ArrowBackIcon
-              onClick={homepage}
+    <>
+      <Header />
+      <Container maxWidth="md" sx={{ paddingTop: 5 }}>
+        <Box mb={3}>
+          <Box
+            display="flex"
+            justifyContent="center"
+            flexDirection="row"
+            mb={3}
+            width="100%"
+            alignItems="center"
+          >
+            <Typography variant="h4">How are you feeling?</Typography>
+          </Box>
+        </Box>
+        <Stack direction="column" gap={3} width="100%" mt={2} mb={2}>
+          <Box>
+            <Typography variant="caption" color="textSecondary">
+              Title
+            </Typography>
+            <TextField
+              fullWidth
+              variant="standard"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </Box>
+
+          <Canvas canvasRef={canvasRef} />
+
+          <Box>
+            <Typography variant="caption" color="textSecondary">
+              Body
+            </Typography>
+            <TextField
+              variant="outlined"
+              fullWidth
+              multiline
+              value={text}
+              minRows={4}
+              onChange={(e) => setText(e.target.value)}
               sx={{
-                color: "secondary",
-                position: "absolute",
-                left: { xs: -10, sm: -260 },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 3,
+                },
               }}
             />
-          </IconButton>
-          <Typography variant="h4">How are you feeling?</Typography>
-        </Box>
-      </Box>
-      <Stack direction="column" gap={3} width="100%" mt={2} mb={2}>
-        <Box>
-          <Typography variant="caption" color="textSecondary">
-            Title
-          </Typography>
-          <TextField
-            fullWidth
-            variant="standard"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </Box>
-
-        <Canvas canvasRef={canvasRef} />
-
-        <Box>
-          <Typography variant="caption" color="textSecondary">
-            Body
-          </Typography>
-          <TextField
-            variant="outlined"
-            fullWidth
-            multiline
-            value={text}
-            minRows={4}
-            onChange={(e) => setText(e.target.value)}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: 3,
-              },
-            }}
-          />
-        </Box>
-      </Stack>
-      <Button variant="contained" onClick={handleSubmit}>
-        Save
-        {isSaving && (
-          <CircularProgress
-            sx={{ marginLeft: 1 }}
-            size="1rem"
-            color="secondary"
-          />
-        )}
-      </Button>
-    </Container>
+          </Box>
+        </Stack>
+        <Button variant="contained" onClick={handleSubmit}>
+          Save
+          {isSaving && (
+            <CircularProgress
+              sx={{ marginLeft: 1 }}
+              size="1rem"
+              color="secondary"
+            />
+          )}
+        </Button>
+      </Container>
+    </>
   );
 }
 
