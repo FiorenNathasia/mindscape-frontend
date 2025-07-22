@@ -9,26 +9,26 @@ import {
   Container,
   Alert,
   Link,
-  Stack,
-  LinearProgress,
+  CircularProgress,
+  Card,
+  CardContent,
 } from "@mui/material";
+import Lottie from "lottie-react";
+import backgroundImage from "../../assets/background/background.png";
+import manAnimation from "../../assets/animations/manAnimation.json";
+import logoImage from "../../assets/logo/mindscapeLogo.png";
 
 function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    const user = {
-      firstName,
-      lastName,
-      email,
-      password,
-    };
+    const user = { firstName, lastName, email, password };
     try {
       setIsLoading(true);
       await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, user);
@@ -37,55 +37,75 @@ function Signup() {
       const errorMessage =
         error.response?.data?.message || "Something went wrong";
       setError(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (
-    <>
-      {isLoading && <LinearProgress width="100%" />}
-      <Container maxWidth="xs">
-        <Box
+    <Box
+      sx={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+      }}
+    >
+      <Container
+        sx={{
+          maxWidth: { xs: "none", sm: "100%" },
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Card
           sx={{
-            pt: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            px: 4,
+            py: 3,
+            maxWidth: 450,
+            width: "100%",
+            boxShadow: 5,
+            backdropFilter: "blur(10px)",
           }}
         >
-          <Typography variant="h5" mb={5}>
-            Sign Up
-          </Typography>
+          <CardContent>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <Box
+                component="img"
+                src={logoImage}
+                alt="Mindscape Logo"
+                sx={{ maxWidth: 250, height: 230 }}
+              />
+              <Typography variant="h6" mt={-2}>
+                Create Your Account
+              </Typography>
+            </Box>
 
-          {error && (
-            <Alert
-              severity="error"
-              sx={{
-                width: "100%",
-                mt: 2,
-              }}
-            >
-              {error}
-            </Alert>
-          )}
+            {error && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )}
 
-          <Stack direction="column" gap={2} width="100%" mt={2} mb={2}>
             <TextField
               label="First Name"
               variant="outlined"
               fullWidth
+              margin="normal"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              helperText={!!error && !firstName ? "First name is required" : ""}
             />
 
             <TextField
               label="Last Name"
               variant="outlined"
               fullWidth
+              margin="normal"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              helperText={!!error && !lastName ? "Last name is required" : ""}
             />
 
             <TextField
@@ -93,9 +113,9 @@ function Signup() {
               type="email"
               variant="outlined"
               fullWidth
+              margin="normal"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              helperText={!!error && !email ? "Email is required" : ""}
             />
 
             <TextField
@@ -103,31 +123,58 @@ function Signup() {
               type="password"
               variant="outlined"
               fullWidth
+              margin="normal"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
 
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               onClick={handleSubmit}
               disabled={
                 isLoading || !email || !password || !firstName || !lastName
               }
+              sx={{ mt: 2, mb: 1, backgroundColor: "#E66A1D" }}
             >
-              Sign Up
+              {isLoading ? (
+                <>
+                  Signing Up...
+                  <CircularProgress
+                    size={20}
+                    sx={{
+                      color: "#FFB677",
+                      position: "absolute",
+                      right: 16,
+                    }}
+                  />
+                </>
+              ) : (
+                "Sign Up"
+              )}
             </Button>
-          </Stack>
-          <Typography variant="body2" align="center">
-            Already have an account?{" "}
-            <Link component={RouterLink} to="/login">
-              Log in
-            </Link>
-          </Typography>
+
+            <Typography variant="body2" align="center">
+              Already have an account?{" "}
+              <Link component={RouterLink} to="/login">
+                Log in
+              </Link>
+            </Typography>
+          </CardContent>
+        </Card>
+        <Box
+          sx={{
+            display: { xs: "none", md: "flex" },
+            justifyContent: "center",
+            alignItems: "center",
+            pl: 20,
+          }}
+        >
+          <Lottie animationData={manAnimation} style={{ width: 600 }} loop />
         </Box>
       </Container>
-    </>
+    </Box>
   );
 }
+
 export default Signup;

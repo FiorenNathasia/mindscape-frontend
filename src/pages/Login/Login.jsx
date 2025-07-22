@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import axios from "axios";
 import {
   TextField,
@@ -9,26 +9,29 @@ import {
   Container,
   Alert,
   Link,
-  LinearProgress,
+  CircularProgress,
+  Card,
+  CardContent,
 } from "@mui/material";
+import { CheckCircle } from "@mui/icons-material";
+import Lottie from "lottie-react";
+import backgroundImage from "../../assets/background/background.png";
+import manAnimation from "../../assets/animations/manAnimation.json";
+import logoImage from "../../assets/logo/mindscapeLogo.png";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    const user = {
-      email,
-      password,
-    };
     try {
       setIsLoading(true);
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/login`,
-        user
+        { email, password }
       );
       const accessToken = response.data.data.accessToken;
       localStorage.setItem("accessToken", accessToken);
@@ -37,8 +40,9 @@ function Login() {
       const errorMessage =
         error.response?.data?.message || "Something went wrong";
       setError(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const handleSetDemoAccount = () => {
@@ -47,47 +51,71 @@ function Login() {
   };
 
   return (
-    <>
-      {isLoading && <LinearProgress width="100%" />}
-      <Container maxWidth="xs">
-        <Box
+    <Box
+      sx={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+      }}
+    >
+      <Container
+        sx={{
+          maxWidth: { xs: "none", sm: "100%" },
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Card
           sx={{
-            pt: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            px: 4,
+            py: 3,
+            maxWidth: 400,
+            width: "100%",
+            boxShadow: 5,
+            backdropFilter: "blur(10px)",
           }}
         >
-          <Typography variant="h5" mb={3}>
-            Welcome Back
-          </Typography>
+          <CardContent>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <Box
+                component="img"
+                src={logoImage}
+                alt="Mindscape Logo"
+                sx={{ maxWidth: 250, height: 230 }}
+              />
+            </Box>
 
-          <Alert
-            severity="info"
-            sx={{
-              width: "100%",
-              mt: 2,
-            }}
-          >
-            Here to demo the app? Use{" "}
-            <Link onClick={handleSetDemoAccount} sx={{ cursor: "pointer" }}>
-              this account
-            </Link>
-          </Alert>
-
-          {error && (
             <Alert
-              severity="error"
+              icon={<CheckCircle sx={{ color: "#C1440E" }} />}
               sx={{
-                width: "100%",
-                mt: 2,
+                mb: 2,
+                backgroundColor: "#FFDAB9",
+                color: "#FFB677",
+                fontWeight: 500,
+                borderRadius: 1,
               }}
             >
-              {error}
+              <Typography color="black">
+                Just exploring?{" "}
+                <Link
+                  onClick={handleSetDemoAccount}
+                  sx={{ cursor: "pointer", color: "#C1440E" }}
+                >
+                  Use a demo account
+                </Link>
+              </Typography>
             </Alert>
-          )}
 
-          <Box>
+            {error && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )}
+
             <TextField
               fullWidth
               label="Email Address"
@@ -111,24 +139,48 @@ function Login() {
 
             <Button
               fullWidth
-              type="submit"
               variant="contained"
-              sx={{ mt: 2, mb: 2 }}
               onClick={handleSubmit}
-              disabled={!email || !password}
+              disabled={!email || !password || isLoading}
+              sx={{ mt: 2, mb: 1, backgroundColor: "#E66A1D" }}
             >
-              Log In
+              {isLoading ? (
+                <>
+                  Logging In...
+                  <CircularProgress
+                    size={20}
+                    sx={{
+                      color: "#FFB677",
+                      position: "absolute",
+                      right: 16,
+                    }}
+                  />
+                </>
+              ) : (
+                "Login"
+              )}
             </Button>
+
             <Typography variant="body2" align="center">
               Don’t have an account?{" "}
               <Link component={RouterLink} to="/signup">
                 Sign Up
               </Link>
             </Typography>
-          </Box>
+          </CardContent>
+        </Card>
+        <Box
+          sx={{
+            display: { xs: "none", md: "flex" },
+            justifyContent: "center",
+            alignItems: "center",
+            pl: 20,
+          }}
+        >
+          <Lottie animationData={manAnimation} style={{ width: 600 }} loop />
         </Box>
       </Container>
-    </>
+    </Box>
   );
 }
 
