@@ -64,8 +64,9 @@ function Signup() {
         <Card
           sx={{
             px: 4,
-            py: 3,
-            maxWidth: 450,
+            py: 1,
+            maxWidth: 400,
+            maxHeight: 650,
             width: "100%",
             boxShadow: 5,
             backdropFilter: "blur(10px)",
@@ -77,11 +78,8 @@ function Signup() {
                 component="img"
                 src={logoImage}
                 alt="Mindscape Logo"
-                sx={{ maxWidth: 250, height: 230 }}
+                sx={{ maxWidth: 250, height: 200 }}
               />
-              <Typography variant="h6" mt={-2}>
-                Create Your Account
-              </Typography>
             </Box>
 
             {error && (

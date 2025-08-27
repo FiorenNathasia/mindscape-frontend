@@ -85,7 +85,7 @@ function Login() {
                 component="img"
                 src={logoImage}
                 alt="Mindscape Logo"
-                sx={{ maxWidth: 250, height: 230 }}
+                sx={{ maxWidth: 250, height: 200 }}
               />
             </Box>
 
