@@ -191,7 +191,7 @@ function EntryPage() {
   return (
     <>
       <Header />
-      <Container maxWidth="md" sx={{ paddingTop: 5 }}>
+      <Container maxWidth="md" sx={{ paddingTop: 5, paddingBottom: 5 }}>
         <Box mb={3}>
           <Box
             display="flex"
